@@ -34,7 +34,6 @@ Nout = 200
 
 t = np.linspace(0,tmax,Nout)
 obs_tess = np.where(np.round(abs(t - t_orb),6) == np.round(np.min(abs(t - t_orb)),6))[0][0]
-
 delta_index = 0
 obs_idx=[delta_index,obs_tess+delta_index]
 
@@ -54,7 +53,6 @@ def makesim(theta):
     e_com = 0.0
     phiecom=float(np.random.uniform(0, 2*np.pi, size=1)) # varying between 0 and 2pi
     theta1 = np.pi
-
     Mstar = 1.1
     m1 = mratio*10**mu
     m2 = (1-mratio)*10**mu
@@ -166,5 +164,5 @@ for i,seed_batch in enumerate(seed_batches):
 		results = p_map(get_posteriors,seed_batch)
 		#pool.close()
 		#pool.join()
-		np.save('lnlike_test_posteriors/batches_10Mearth_1Mjup_c_d_30mil/batch_{}.npy'.format(i+1), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
+		np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+1), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
 		#print("--- %s seconds ---" % (time.time() - start_time))
