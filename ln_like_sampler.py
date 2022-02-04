@@ -42,10 +42,7 @@ obs_err = np.array([0.0001, 0.0005])
 obs = np.array([1.503, 1.503])
 
 def makesim(theta):
-    """"
-    Yields the model given the parameters (theta).
-    The resonance can be changed to the 2:1 by adjusting j to 2.
-    """"
+
 
     e_forced, e_free, deltaT, mu = theta
 
@@ -77,9 +74,7 @@ def makesim(theta):
         raise
 
 def run(sim):
-    """"
-    Generates period ratio time series given a simulation from the model.
-    """"
+
     Pratios = np.zeros(Nout)
     ps = sim.particles
 
@@ -91,9 +86,7 @@ def run(sim):
     return Pratios
 
 def compute_model(theta):
-    """
-    Computes the model observation periods given a set of parameters at the observation indices
-    """
+
 
     sim = makesim(theta)
 
@@ -102,15 +95,13 @@ def compute_model(theta):
     return period_ratios[obs_idx]
 
 def gen_priors(seed):
-    """"
-    Generates priors given a seed or list of seeds.
-    """
+
 
     rng = np.random.default_rng(seed)
 
     eforced_0 = float(rng.uniform(0.0005,0.2,size=1))
     efree_0 = float(rng.uniform(0.0005,0.2,size=1))
-    mu_0 = float(rng.uniform(np.log10(3.0027e-5), -3, size=1)) # 01/20/22: Testing a higher upper limit by a factor of 3 (changed from 3 Mearth to 10 Mearth)
+    mu_0 = float(rng.uniform(np.log10(8.964e-6), -3, size=1)) # 01/20/22: Testing a higher upper limit by a factor of 3 (changed from 3 Mearth to 10 Mearth)
     delta_T0 = float(rng.uniform(0, 2000, size=1))
 
     par = (eforced_0,efree_0,delta_T0, mu_0)
@@ -119,12 +110,6 @@ def gen_priors(seed):
 
 def lnlike(theta):
 
-    """
-    Determines the gaussian log likelihood.
-    obs: period ratio observations
-    theta: parameters
-    obs_err: errors in the shape of (obs,sample_size) for K2 and TESS
-    """
     e_forced, e_free, deltaT, mu = theta
 
     model = compute_model(theta)
