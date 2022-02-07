@@ -149,5 +149,5 @@ for i,seed_batch in enumerate(seed_batches):
 		results = p_map(get_posteriors,seed_batch)
 		#pool.close()
 		#pool.join()
-		np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+1), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
+		np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
 		#print("--- %s seconds ---" % (time.time() - start_time))
