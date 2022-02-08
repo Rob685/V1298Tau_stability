@@ -160,18 +160,21 @@ def get_posteriors(seed, n):
     return posterior
 
 
-seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
+#seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
 
-n = int(1e5)
+n = int(sys.argv[1])
+seed = int(sys.argv[2])
 
-seed_batches = [seeds[i:i + n] for i in range(0, len(seeds), n)]
+#seed_batches = [seeds[i:i + n] for i in range(0, len(seeds), n)]
 
-for i,seed_batch in enumerate(seed_batches):
-	if __name__ == '__main__':
-		#pool = Pool()
-		#results = pool.map(get_posteriors,seeds)
-		results = p_map(get_posteriors,seed_batch)
-		#pool.close()
-		#pool.join()
-		np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
-		#print("--- %s seconds ---" % (time.time() - start_time))
+#for i,seed_batch in enumerate(seed_batches):
+if __name__ == '__main__':
+	#pool = Pool()
+	#results = pool.map(get_posteriors,seeds)
+	results = p_map(get_posteriors,seed,n)
+	#pool.close()
+	#pool.join()
+	#np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
+	#print("--- %s seconds ---" % (time.time() - start_time))
+
+print(len(post_test[~np.isnan(post_test)]))
