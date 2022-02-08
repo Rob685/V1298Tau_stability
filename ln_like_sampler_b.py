@@ -166,15 +166,15 @@ n = [1e3]
 seed = [0]
 
 #seed_batches = [seeds[i:i + n] for i in range(0, len(seeds), n)]
-
+start_time = timeit.default_timer()
 #for i,seed_batch in enumerate(seed_batches):
 if __name__ == '__main__':
 	#pool = Pool()
-	#results = pool.map(get_posteriors,seeds)
-	results = p_map(get_posteriors,seed,n)
-	#pool.close()
-	#pool.join()
+	results = pool.map(get_posteriors,seed,n)
+	#results = p_map(get_posteriors,seed,n)
+	pool.close()
+	pool.join()
 	#np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
-	#print("--- %s seconds ---" % (time.time() - start_time))
+	print("--- %s seconds ---" % (timeit.default_timer() - start_time))
 
-print(len(post_test[~np.isnan(post_test)]))
+print(len(results[~np.isnan(results)]))
