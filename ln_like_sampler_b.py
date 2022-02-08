@@ -163,7 +163,7 @@ def get_posteriors(seed, n):
 #seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
 
 n = 1e3
-seed = 0
+seed = [0]
 
 #seed_batches = [seeds[i:i + n] for i in range(0, len(seeds), n)]
 
