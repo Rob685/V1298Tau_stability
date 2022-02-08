@@ -169,7 +169,7 @@ seed = [0]
 start_time = timeit.default_timer()
 #for i,seed_batch in enumerate(seed_batches):
 if __name__ == '__main__':
-	#pool = Pool()
+	pool = Pool()
 	results = pool.map(get_posteriors,seed,n)
 	#results = p_map(get_posteriors,seed,n)
 	pool.close()
