@@ -34,7 +34,6 @@ Nout = 200
 
 t = np.linspace(0,tmax,Nout)
 obs_tess = np.where(np.round(abs(t - t_orb),6) == np.round(np.min(abs(t - t_orb)),6))[0][0]
-
 delta_index = 0
 obs_idx=[delta_index,obs_tess+delta_index]
 
@@ -43,10 +42,7 @@ obs_err = np.array([0.0001, 0.0005])
 obs = np.array([1.503, 1.503])
 
 def makesim(theta):
-    """"
-    Yields the model given the parameters (theta).
-    The resonance can be changed to the 2:1 by adjusting j to 2.
-    """"
+
 
     e_forced, e_free, deltaT, mu = theta
 
@@ -54,7 +50,6 @@ def makesim(theta):
     e_com = 0.0
     phiecom=float(np.random.uniform(0, 2*np.pi, size=1)) # varying between 0 and 2pi
     theta1 = np.pi
-
     Mstar = 1.1
     m1 = mratio*10**mu
     m2 = (1-mratio)*10**mu
@@ -79,9 +74,7 @@ def makesim(theta):
         raise
 
 def run(sim):
-    """"
-    Generates period ratio time series given a simulation from the model.
-    """"
+
     Pratios = np.zeros(Nout)
     ps = sim.particles
 
@@ -93,9 +86,7 @@ def run(sim):
     return Pratios
 
 def compute_model(theta):
-    """
-    Computes the model observation periods given a set of parameters at the observation indices
-    """
+
 
     sim = makesim(theta)
 
@@ -104,15 +95,13 @@ def compute_model(theta):
     return period_ratios[obs_idx]
 
 def gen_priors(seed):
-    """"
-    Generates priors given a seed or list of seeds.
-    """
+
 
     rng = np.random.default_rng(seed)
 
     eforced_0 = float(rng.uniform(0.0005,0.2,size=1))
     efree_0 = float(rng.uniform(0.0005,0.2,size=1))
-    mu_0 = float(rng.uniform(np.log10(3.0027e-5), -3, size=1)) # 01/20/22: Testing a higher upper limit by a factor of 3 (changed from 3 Mearth to 10 Mearth)
+    mu_0 = float(rng.uniform(np.log10(8.964e-6), -3, size=1)) # 01/20/22: Testing a higher upper limit by a factor of 3 (changed from 3 Mearth to 10 Mearth)
     delta_T0 = float(rng.uniform(0, 2000, size=1))
 
     par = (eforced_0,efree_0,delta_T0, mu_0)
@@ -121,12 +110,6 @@ def gen_priors(seed):
 
 def lnlike(theta):
 
-    """
-    Determines the gaussian log likelihood.
-    obs: period ratio observations
-    theta: parameters
-    obs_err: errors in the shape of (obs,sample_size) for K2 and TESS
-    """
     e_forced, e_free, deltaT, mu = theta
 
     model = compute_model(theta)
@@ -166,5 +149,5 @@ for i,seed_batch in enumerate(seed_batches):
 		results = p_map(get_posteriors,seed_batch)
 		#pool.close()
 		#pool.join()
-		np.save('lnlike_test_posteriors/batches_10Mearth_1Mjup_c_d_30mil/batch_{}.npy'.format(i+1), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
+		np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
 		#print("--- %s seconds ---" % (time.time() - start_time))
