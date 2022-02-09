@@ -88,7 +88,7 @@ def makesim(theta):
         sim = andvars.to_Simulation()
         sim.add(m=mb, P=sim.particles[2].P*1.946, e=eb, pomega=pomegab, theta=thetab)
         sim.integrator="whfast"
-        sim.dt = sim.particles[1].P/10
+        sim.dt = sim.particles[1].P/20
         sim.ri_whfast.safe_mode = 0
         sim.integrate(deltaT)
         sim.t = 0
