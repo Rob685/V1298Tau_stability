@@ -41,6 +41,29 @@ nobs = 2
 obs_err = np.array([0.0001, 0.0005])
 obs = np.array([1.503, 1.503])
 
+# last TESS observation:
+t_tess = 4664.65
+
+# last K2 observation:
+t_K2 = 2265
+
+t = t_tess - t_K2
+
+t_orbits = t/8.24958
+
+t_orb = t_orbits*5.98
+tmax = 1.0*t_orb
+Nout = 200
+
+t = np.linspace(0,tmax,Nout)
+obs_tess = np.where(np.round(abs(t - t_orb),6) == np.round(np.min(abs(t - t_orb)),6))[0][0]
+delta_index = 0
+obs_idx=[delta_index,obs_tess+delta_index]
+
+nobs = 2
+obs_err = np.array([0.0001, 0.0005])
+obs = np.array([1.503, 1.503])
+
 def makesim(theta):
 
 
@@ -88,14 +111,19 @@ def run(sim):
 
 def compute_model(theta):
 
+    if theta.ndim > 1:
+        sims = [makesim(param) for param in theta]
 
-    sims = [makesim(param) for param in theta]
-
-    period_ratios = [run(sim) for sim in sims]
+        period_ratios = [run(sim) for sim in sims]
 
 
 
-    return [periods[obs_idx] for periods in period_ratios]
+        return [periods[obs_idx] for periods in period_ratios]
+
+    else:
+        sim = makesim(theta)
+        period_ratios = run(sim)
+        return period_ratios[obs_idx]
 
 def gen_priors_array(seed, n):
 
@@ -128,52 +156,49 @@ def gen_priors_array(seed, n):
 
     return valid_priors
 
-
 def lnlike(theta):
 
     #e_forced, e_free, deltaT, mu, mb, eb, pomegab, thetab = theta
 
     model = compute_model(theta)
     argument = (obs - model)**2 / obs_err**2
-
-    loglike = [0.5*np.sum(arg) for arg in argument]
+    if theta.ndim > 1:
+        loglike = [0.5*np.sum(arg) for arg in argument]
+    else:
+        loglike = 0.5*np.sum(argument)
     return loglike
 
-def get_posteriors(seed, n):
+def get_posteriors(prior):
 
-    param_prior = gen_priors_array(seed, n)
-    like_val = lnlike(param_prior)
+    like_val = lnlike(prior)
 
-    rng = np.random.default_rng(seed)
+    rng = np.random.default_rng(0)
 
-    prob = np.log10(rng.random(len(param_prior)))
+    prob = np.log10(rng.random())
 
+    if -like_val > prob:
+        post = prior
 
-    posterior = []
-    for l,p,prior in zip(like_val, prob, param_prior):
-        if -l > p:
-            posterior.append(prior)
-
-        else:
-            posterior.append(np.nan)
-
-    return posterior
+        return post
+    else:
+    	return np.nan
 
 
+priors = gen_priors_array(seed, 0)
 #seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
 
-n = [1e3]
-seed = [0]
+n = 1e3
+seed = 0
 
 #seed_batches = [seeds[i:i + n] for i in range(0, len(seeds), n)]
 start_time = timeit.default_timer()
 #for i,seed_batch in enumerate(seed_batches):
 if __name__ == '__main__':
-	pool = Pool()
-	results = pool.map(get_posteriors,seed,n)
-	#results = p_map(get_posteriors,seed,n)
-	pool.close()
-	pool.join()
+	#pool = Pool()
+	#results = pool.map(get_posteriors,priors)
+	results = p_map(get_posteriors,priors)
+	#pool.close()
+	#pool.join()
 	#np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
 	print("--- %s seconds ---" % (timeit.default_timer() - start_time))
 
