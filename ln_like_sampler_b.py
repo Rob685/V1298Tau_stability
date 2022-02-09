@@ -200,4 +200,4 @@ if __name__ == '__main__':
 	#np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
 	print("--- %s seconds ---" % (timeit.default_timer() - start_time))
 
-print(len(results[~np.isnan(results)]))
+    print(len(results[~np.isnan(results)]))
