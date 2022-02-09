@@ -108,7 +108,7 @@ def gen_priors_array(seed):
 
     rng = np.random.default_rng(seed)
 
-    eforced_0 = float(rng.uniform(0.0005,0.23,size=1)) # changing the upper limit to the crossing eccentricity
+    eforced_0 = float(rng.uniform(0.0005,0.20,size=1)) # changing the upper limit to the crossing eccentricity
     efree_0 = float(rng.uniform(0.0005,0.003,size=1)) # changing the bounds because experiments show that
     mu_0 = float(rng.uniform(np.log10(8.964e-6), np.log10(5.25e-4), size=1)) # new upper limit of 0.55 Mjup by Mascareno
 
