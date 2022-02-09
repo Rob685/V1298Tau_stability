@@ -172,7 +172,7 @@ def get_posteriors(prior):
 
     like_val = lnlike(prior)
 
-    rng = np.random.default_rng(sys.argv[1])
+    rng = np.random.default_rng(42)
 
     prob = np.log10(rng.random())
 
@@ -184,7 +184,7 @@ def get_posteriors(prior):
     	return np.nan
 
 
-priors = gen_priors_array(sys.argv[1], sys.argv[2])
+priors = gen_priors_array(42, sys.argv[1])
 #seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
 
 
