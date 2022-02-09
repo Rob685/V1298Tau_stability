@@ -192,12 +192,12 @@ priors = gen_priors_array(0, 1e3)
 start_time = timeit.default_timer()
 #for i,seed_batch in enumerate(seed_batches):
 if __name__ == '__main__':
-	#pool = Pool()
-	#results = pool.map(get_posteriors,priors)
-	results = p_map(get_posteriors,priors)
-	#pool.close()
-	#pool.join()
-	#np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
-	print("--- %s seconds ---" % (timeit.default_timer() - start_time))
+    #pool = Pool()
+    #results = pool.map(get_posteriors,priors)
+    results = p_map(get_posteriors,priors)
+    #pool.close()
+    #pool.join()
+    #np.save('/Users/Helios/gdrive_pu/tamayo_research/lnlike_100mil/batch_{}.npy'.format(i+576), results) # 25 mil broke after file 257 so replacing format so it doesn't overwrite
+    print("--- %s seconds ---" % (timeit.default_timer() - start_time))
 
     print(len(results[~np.isnan(results)]))
