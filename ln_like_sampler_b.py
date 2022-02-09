@@ -184,7 +184,7 @@ def get_posteriors(prior):
     	return np.nan
 
 
-priors = gen_priors_array(0, 1e3)
+priors = gen_priors_array(0, sys.argv[1])
 #seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
 
 
