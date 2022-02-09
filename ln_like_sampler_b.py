@@ -184,11 +184,9 @@ def get_posteriors(prior):
     	return np.nan
 
 
-priors = gen_priors_array(seed, 0)
+priors = gen_priors_array(0, 1e3)
 #seeds = list(range(int(sys.argv[1]),int(sys.argv[2])))
 
-n = 1e3
-seed = 0
 
 #seed_batches = [seeds[i:i + n] for i in range(0, len(seeds), n)]
 start_time = timeit.default_timer()
