@@ -101,7 +101,7 @@ def gen_priors(seed):
 
     eforced_0 = float(rng.uniform(0.0005,0.2,size=1))
     efree_0 = float(rng.uniform(0.0005,0.2,size=1))
-    mu_0 = float(rng.uniform(np.log10(8.964e-6), -3, size=1)) # 01/20/22: Testing a higher upper limit by a factor of 3 (changed from 3 Mearth to 10 Mearth)
+    mu_0 = float(rng.uniform(np.log10(8.964e-6), np.log10(9.54e-4), size=1)) # 01/20/22: Testing a higher upper limit by a factor of 3 (changed from 3 Mearth to 10 Mearth)
     delta_T0 = float(rng.uniform(0, 2000, size=1))
 
     par = (eforced_0,efree_0,delta_T0, mu_0)
